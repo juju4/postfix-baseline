@@ -7,7 +7,7 @@ title 'Postfix section'
 
 postfix_smarthost = attribute('postfix_smarthost', default: false, description: 'Should postfix use a smarthost')
 # postfix_smarthost = true
-postfix_smarhost_server = attribute('postfix_smarthost_server', default: false, description: 'Which smarthost server should be configured')
+postfix_smarthost_server = attribute('postfix_smarthost_server', default: false, description: 'Which smarthost server should be configured')
 # postfix_smarthost_server = %( smtp.example.com )
 
 control 'postfix-1.0' do # A unique ID for this control
@@ -15,9 +15,9 @@ control 'postfix-1.0' do # A unique ID for this control
   title 'postfixd should be present'
   desc 'Ensure postfixd executable and configuration are present'
   describe file('/usr/sbin/postfix') do
-      it { should be_file }
-      it { should be_executable }
-      it { should be_owned_by 'root' }
+    it { should be_file }
+    it { should be_executable }
+    it { should be_owned_by 'root' }
   end
 end
 
@@ -71,11 +71,11 @@ control 'postfix-4.0' do
   title 'postfixd should have log files'
   desc 'Ensure postfixd logs file are present'
   if os.redhat?
-  describe file('/var/log') do
-    it { should be_directory }
-    it { should be_owned_by 'root' }
-    its('mode') { should cmp '0755' }
-  end
+    describe file('/var/log') do
+      it { should be_directory }
+      it { should be_owned_by 'root' }
+      its('mode') { should cmp '0755' }
+    end
     describe file('/var/log/mail.log') do
       it { should be_file }
       it { should be_owned_by 'root' }
@@ -85,12 +85,12 @@ control 'postfix-4.0' do
     end
   else
     ## ubuntu
-  describe file('/var/log') do
-    it { should be_directory }
-    it { should be_owned_by 'root' }
-    its('group') { should eq 'syslog' }
-    its('mode') { should cmp '0775' }
-  end
+    describe file('/var/log') do
+      it { should be_directory }
+      it { should be_owned_by 'root' }
+      its('group') { should eq 'syslog' }
+      its('mode') { should cmp '0775' }
+    end
     describe file('/var/log/mail.log') do
       it { should be_file }
       it { should be_owned_by 'syslog' }
@@ -107,8 +107,8 @@ if postfix_smarthost
     desc 'Ensure smarthost server is configured in defined files'
     postfix_smarthost_server.each do |server|
       describe file('/etc/postfix/smarthost_passwd') do
-          it { should be_file }
-          its('content') { should match "^[^#]\[#{server}\].*" }
+        it { should be_file }
+        its('content') { should match "^[^#]\[#{server}\].*" }
       end
     end
   end
