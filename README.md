@@ -2,3 +2,4 @@
 # Postfix Daemon InSpec Profile
 
 Ensure postfix daemon is installed, configured and active on Linux system.
+
