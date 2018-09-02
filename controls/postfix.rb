@@ -94,8 +94,9 @@ control 'postfix-4.0' do
     describe file('/var/log/mail.log') do
       it { should be_file }
       it { should be_owned_by 'syslog' }
-      its('mode') { should cmp '0644' }
-      its('content') { should match 'postfix/sendmail' }
+      its('mode') { should cmp(/0644|0640/) }
+      its('content') { should match 'postfix/master' }
+      its('content') { should match 'starting the Postfix mail system' }
       its('content') { should_not match 'fatal' }
     end
   end
