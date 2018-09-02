@@ -44,7 +44,7 @@ control 'postfix-2.0' do
     its('content') { should match 'default_process_limit = 100' }
     its('content') { should match 'smtp_sasl_auth_enable = yes' }
     its('content') { should match 'smtpd_use_tls=yes' }
-    its('content') { should match 'smtp_use_tls = yes' }
+    its('content') { should match 'smtp_use_tls=yes' }
     its('content') { should match 'smtpd_tls_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1' }
     its('content') { should match 'smtp_tls_exclude_ciphers = EXPORT, LOW' }
     its('content') { should match 'smtp_sasl_security_options = noanonymous' }
