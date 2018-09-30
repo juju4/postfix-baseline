@@ -29,8 +29,8 @@ postfix_main_cf_options = attribute(
     'smtp_sasl_auth_enable = yes',
     'smtpd_use_tls=yes',
     'smtp_use_tls = yes',
-    "smtpd_tls_protocols=${postfix_protocols}",
-    "smtp_tls_exclude_ciphers = ${postfix_exclude_ciphers}",
+    "smtpd_tls_protocols=#{postfix_protocols}",
+    "smtp_tls_exclude_ciphers = #{postfix_exclude_ciphers}",
     'smtp_sasl_security_options = noanonymous'
   ],
   description: 'list of options in /etc/postfix/main.cf'
