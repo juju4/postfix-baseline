@@ -57,7 +57,7 @@ control 'postfix-2.0' do
     its('mode') { should cmp '0644' }
     its('content') { should match 'smtp      inet  n       -       y       -       -       smtpd' }
     postfix_master_cf_options.each do |opt|
-      it { should match(opt.to_s) }
+      its('content') { should match(opt.to_s) }
     end
   end
   describe file('/etc/postfix/main.cf') do
@@ -65,7 +65,7 @@ control 'postfix-2.0' do
     it { should be_owned_by 'root' }
     its('mode') { should cmp '0644' }
     postfix_main_cf_options.each do |opt|
-      it { should match(opt.to_s) }
+      its('content') { should match(opt.to_s) }
     end
   end
 end
