@@ -9,6 +9,32 @@ postfix_smarthost = attribute('postfix_smarthost', default: false, description: 
 # postfix_smarthost = true
 postfix_smarthost_server = attribute('postfix_smarthost_server', default: false, description: 'Which smarthost server should be configured')
 # postfix_smarthost_server = %( smtp.example.com )
+postfix_protocols = attribute('postfix_protocols', default: '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1', description: 'postfix protocols')
+postfix_exclude_ciphers = attribute('postfix_exclude_ciphers', default: 'aNULL, eNULL, EXP, MD5, IDEA, KRB5, RC2, SEED, SRP', description: 'postfix exclude ciphers')
+postfix_master_cf_options = attribute(
+  'postfix_master_cf_options',
+  default: [],
+  description: 'list of options in /etc/postfix/master.cf'
+)
+postfix_main_cf_options = attribute(
+  'postfix_main_cf_options',
+  default: [
+    'inet_interfaces = loopback-only',
+    'biff = no',
+    'smtpd_helo_required = yes',
+    'readme_directory = no',
+    'append_dot_mydomain = no',
+    'disable_vrfy_command = yes',
+    'default_process_limit = 100',
+    'smtp_sasl_auth_enable = yes',
+    'smtpd_use_tls=yes',
+    'smtp_use_tls = yes',
+    "smtpd_tls_protocols=${postfix_protocols}",
+    "smtp_tls_exclude_ciphers = ${postfix_exclude_ciphers}",
+    'smtp_sasl_security_options = noanonymous'
+  ],
+  description: 'list of options in /etc/postfix/main.cf'
+)
 
 control 'postfix-1.0' do # A unique ID for this control
   impact 0.7 # The criticality, if this control fails.
@@ -30,24 +56,17 @@ control 'postfix-2.0' do
     it { should be_owned_by 'root' }
     its('mode') { should cmp '0644' }
     its('content') { should match 'smtp      inet  n       -       y       -       -       smtpd' }
+    postfix_master_cf_options.each do |opt|
+      it { should match(opt.to_s) }
+    end
   end
   describe file('/etc/postfix/main.cf') do
     it { should be_file }
     it { should be_owned_by 'root' }
     its('mode') { should cmp '0644' }
-    its('content') { should match 'inet_interfaces = loopback-only' }
-    its('content') { should match 'biff = no' }
-    its('content') { should match 'smtpd_helo_required = yes' }
-    its('content') { should match 'readme_directory = no' }
-    its('content') { should match 'append_dot_mydomain = no' }
-    its('content') { should match 'disable_vrfy_command = yes' }
-    its('content') { should match 'default_process_limit = 100' }
-    its('content') { should match 'smtp_sasl_auth_enable = yes' }
-    its('content') { should match 'smtpd_use_tls=yes' }
-    its('content') { should match 'smtp_use_tls = yes' }
-    its('content') { should match 'smtpd_tls_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1' }
-    its('content') { should match 'smtp_tls_exclude_ciphers = EXPORT, LOW' }
-    its('content') { should match 'smtp_sasl_security_options = noanonymous' }
+    postfix_main_cf_options.each do |opt|
+      it { should match(opt.to_s) }
+    end
   end
 end
 
