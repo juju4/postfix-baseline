@@ -95,10 +95,10 @@ control 'postfix-4.0' do
       it { should be_owned_by 'root' }
       its('mode') { should cmp '0755' }
     end
-    describe file('/var/log/mail.log') do
+    describe file('/var/log/maillog') do
       it { should be_file }
       it { should be_owned_by 'root' }
-      its('mode') { should cmp '0644' }
+      its('mode') { should cmp '0600' }
       its('content') { should match 'postfix/sendmail' }
       its('content') { should_not match 'fatal' }
     end
@@ -113,7 +113,7 @@ control 'postfix-4.0' do
     describe file('/var/log/mail.log') do
       it { should be_file }
       it { should be_owned_by 'syslog' }
-      its('mode') { should cmp(/0644|0640/) }
+      its('mode') { should match(/0644|0640/) }
       its('content') { should match 'postfix/master' }
       its('content') { should match 'starting the Postfix mail system' }
       its('content') { should_not match 'fatal' }
