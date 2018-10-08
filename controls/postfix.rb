@@ -10,7 +10,7 @@ postfix_smarthost = attribute('postfix_smarthost', default: false, description: 
 postfix_smarthost_server = attribute('postfix_smarthost_server', default: false, description: 'Which smarthost server should be configured')
 # postfix_smarthost_server = %( smtp.example.com )
 postfix_protocols = attribute('postfix_protocols', default: '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1', description: 'postfix protocols')
-postfix_exclude_ciphers = attribute('postfix_exclude_ciphers', default: 'aNULL, eNULL, EXP, MD5, IDEA, KRB5, RC2, SEED, SRP', description: 'postfix exclude ciphers')
+postfix_exclude_ciphers = attribute('postfix_exclude_ciphers', default: 'aNULL,eNULL,EXP,MD5,IDEA,KRB5,RC2,SEED,SRP', description: 'postfix exclude ciphers')
 postfix_master_cf_options = attribute(
   'postfix_master_cf_options',
   default: [],
@@ -27,11 +27,11 @@ postfix_main_cf_options = attribute(
     'disable_vrfy_command = yes',
     'default_process_limit = 100',
     'smtp_sasl_auth_enable = yes',
-    'smtpd_use_tls=yes',
+    'smtpd_use_tls = yes',
     'smtp_use_tls = yes',
-    "smtpd_tls_protocols=#{postfix_protocols}",
+    "smtpd_tls_protocols = #{postfix_protocols}",
     "smtp_tls_exclude_ciphers = #{postfix_exclude_ciphers}",
-    'smtp_sasl_security_options = noanonymous'
+    'smtp_sasl_security_options = noplaintext,noanonymous'
   ],
   description: 'list of options in /etc/postfix/main.cf'
 )
