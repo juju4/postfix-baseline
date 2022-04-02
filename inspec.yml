@@ -1,8 +1,8 @@
-name: syslog
-title: Syslogd baseline - InSpec Profile
+name: postfix-baseline
+title: Postfix baseline - InSpec Profile
 maintainer: juju4
 copyright: juju4
 copyright_email: juju4@users.noreply.github.com
 license: All Rights Reserved
-summary: An InSpec Compliance Profile for syslogd
+summary: An InSpec Compliance Profile for postfix
 version: 0.1.0
