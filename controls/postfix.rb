@@ -5,20 +5,20 @@
 
 title 'Postfix section'
 
-postfix_smarthost = attribute('postfix_smarthost', default: false, description: 'Should postfix use a smarthost')
+postfix_smarthost = input('postfix_smarthost', value: false, description: 'Should postfix use a smarthost')
 # postfix_smarthost = true
-postfix_smarthost_server = attribute('postfix_smarthost_server', default: false, description: 'Which smarthost server should be configured')
+postfix_smarthost_server = input('postfix_smarthost_server', value: false, description: 'Which smarthost server should be configured')
 # postfix_smarthost_server = %( smtp.example.com )
-postfix_protocols = attribute('postfix_protocols', default: '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1', description: 'postfix protocols')
-postfix_exclude_ciphers = attribute('postfix_exclude_ciphers', default: 'aNULL,eNULL,EXP,MD5,IDEA,KRB5,RC2,SEED,SRP', description: 'postfix exclude ciphers')
-postfix_master_cf_options = attribute(
+postfix_protocols = input('postfix_protocols', value: '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1', description: 'postfix protocols')
+postfix_exclude_ciphers = input('postfix_exclude_ciphers', value: 'aNULL,eNULL,EXP,MD5,IDEA,KRB5,RC2,SEED,SRP', description: 'postfix exclude ciphers')
+postfix_master_cf_options = input(
   'postfix_master_cf_options',
-  default: [],
+  value: [],
   description: 'list of options in /etc/postfix/master.cf'
 )
-postfix_main_cf_options = attribute(
+postfix_main_cf_options = input(
   'postfix_main_cf_options',
-  default: [
+  value: [
     'inet_interfaces = loopback-only',
     'biff = no',
     'smtpd_helo_required = yes',
@@ -31,7 +31,7 @@ postfix_main_cf_options = attribute(
     'smtp_use_tls = yes',
     "smtpd_tls_protocols = #{postfix_protocols}",
     "smtp_tls_exclude_ciphers = #{postfix_exclude_ciphers}",
-    'smtp_sasl_security_options = noplaintext,noanonymous'
+    'smtp_sasl_security_options = noplaintext,noanonymous',
   ],
   description: 'list of options in /etc/postfix/main.cf'
 )
